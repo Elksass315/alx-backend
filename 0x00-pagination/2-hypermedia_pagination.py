@@ -1,25 +1,17 @@
 #!/usr/bin/env python3
+"""Hypermedia pagination sample.
+"""
 import csv
 import math
-from typing import List
-
-"""Simple helper function
-"""
+from typing import Dict, List, Tuple
 
 
-def index_range(page: int, page_size: int) -> tuple:
-    """return a tuple of size two containing a start index
-    and an end index corresponding to the range of indexes to return in
-    a list for those particular pagination parameters.
-
-    Args:
-        page (int): page numper
-        page_size (int): page size
-
-    Returns:
-        tuple: tuple of size two containing a start index and an end index
+def index_range(page: int, page_size: int) -> Tuple[int, int]:
+    """Retrieves the index range from a given page and page size.
     """
-    return ((page - 1) * page_size, page * page_size)
+    start = (page - 1) * page_size
+    end = start + page_size
+    return (start, end)
 
 
 class Server:
@@ -28,6 +20,8 @@ class Server:
     DATA_FILE = "Popular_Baby_Names.csv"
 
     def __init__(self):
+        """Initializes a new Server instance.
+        """
         self.__dataset = None
 
     def dataset(self) -> List[List]:
@@ -52,7 +46,7 @@ class Server:
             return []
         return data[start:end]
 
-    def get_hyper(self, page: int = 1, page_size: int = 10) -> dict:
+    def get_hyper(self, page: int = 1, page_size: int = 10) -> Dict:
         """Retrieves information about a page.
         """
         page_data = self.get_page(page, page_size)
